@@ -2,6 +2,9 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import NewPage from './pages/New'
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 function App() {
 
   const theme = {
@@ -17,9 +20,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="/new" element={<>Renderizando a new</>}></Route>
+        <Route path="/new" element={<NewPage />}></Route>
       </Routes>
     </BrowserRouter>
+    <ToastContainer/>
    </ThemeProvider>
   );
 }

@@ -5,6 +5,9 @@ import Home from './pages/Home';
 import NewPage from './pages/New'
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import EveryBarber from './pages/EveryBarber'
+import BarberDatail from './pages/BarberDetail';
+
 function App() {
 
   const theme = {
@@ -21,6 +24,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}></Route>
         <Route path="/new" element={<NewPage />}></Route>
+        <Route path="/everybarber" element={<EveryBarber/>}></Route>
+        <Route path="/barberdetail" element={<BarberDatail/>}></Route>
       </Routes>
     </BrowserRouter>
     <ToastContainer/>

@@ -8,6 +8,7 @@ import {
     RightContainer,
     SubTitle,
     ButtonBox,
+    ContainerLink,
   } from "./styles";
 
 export default function Home () {
@@ -17,12 +18,23 @@ export default function Home () {
                 <Title>O mapa local de sua cidade</Title>
                 <SubTitle>Encontre no comércio local  as melhores barbearias</SubTitle>
 
-                <Link to="/new">
-                    <Button>
-                        <ButtonBox>{'>'}</ButtonBox>
-                        Cadastre uma barbearia
-                    </Button>                
-                </Link>
+
+                <ContainerLink>
+                    <Link to="/new">
+                        <Button>
+                            <ButtonBox>{'>'}</ButtonBox>
+                            Cadastre uma barbearia
+                        </Button>                
+                    </Link>
+
+                    <Link to="/everybarber">
+                        <Button>
+                            <ButtonBox>{'>'}</ButtonBox>
+                            Localize uma barbearia
+                        </Button>                
+                    </Link>                   
+                </ContainerLink>
+
 
             </LeftContainer>
 

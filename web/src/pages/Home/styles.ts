@@ -63,6 +63,12 @@ export const LeftContainer = styled.div`
   justify-content: center;
 `;
 
+export const ContainerLink = styled.div`
+  display: flex;
+  justify-content:space-around;
+  width: 500px;
+`;
+
 export const RightContainer = styled.div`
   flex: 1;
   display: flex;
@@ -75,3 +81,4 @@ export const Image = styled.img.attrs(() => ({
 }))`
   width: 50%;
 `;
+

@@ -35,7 +35,6 @@ export default function EveryBarber () {
         return <h1>Obtendo localização... </h1>
     }
 
- 
     const location:IMarker  = {
         category: '',
         contact: '',
@@ -45,10 +44,6 @@ export default function EveryBarber () {
         longitude: coords[1],
         name: 'Eu',
     }
-   
-
-
-
    
     return(
         <Container>
@@ -82,9 +77,12 @@ export default function EveryBarber () {
 
                             eventHandlers={{
                                 click: ()=> {
-                                    navigate('/barberdetail')
+                                    navigate(`/barberdetail/${JSON.stringify(item)}`)
+                            
                                 }
                             }}
+
+
                         />                        
                     )
                 })}

@@ -22,10 +22,10 @@ function App() {
    <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>}></Route>
-        <Route path="/new" element={<NewPage />}></Route>
-        <Route path="/everybarber" element={<EveryBarber/>}></Route>
-        <Route path="/barberdetail" element={<BarberDatail/>}></Route>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/new" element={<NewPage />}/>
+        <Route path="/everybarber" element={<EveryBarber/>}/>
+        <Route path="/barberdetail/:item" element={<BarberDatail/>}/>
       </Routes>
     </BrowserRouter>
     <ToastContainer/>
@@ -33,4 +33,5 @@ function App() {
   );
 }
 
+//name//description/category//contact
 export default App;

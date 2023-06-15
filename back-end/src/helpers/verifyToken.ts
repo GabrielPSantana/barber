@@ -31,7 +31,7 @@ export const verifyToken = (
     req.user = verified;
     next();
   } catch (error) {
-    return res.status(400).json({
+    return res.status(422).json({
       message: "Token Inválido poha!",
     });
   }

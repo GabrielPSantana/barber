@@ -1,9 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { User } from "./User";
 @Entity()
 export class Store {
@@ -28,6 +23,6 @@ export class Store {
   @Column("double precision")
   longitude: number;
 
-  @ManyToOne(() => User, (user) => user.stores)
+  @ManyToOne(() => User, (user) => user.stores, { eager: true })
   user: User;
 }

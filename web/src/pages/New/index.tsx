@@ -14,6 +14,8 @@ import { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import useGetLocation from "../../hooks/useGetLocation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import { error } from "console";
 
 export default function New() {
   const navigate = useNavigate();
@@ -33,25 +35,24 @@ export default function New() {
   }
 
   async function onSubmit() {
-    const request = await fetch("http://localhost:3000/store", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...formValues,
-        latitude: formValues.coords[0],
-        longitude: formValues.coords[1],
-      }),
-    });
+    const newStore = {
+      name: formValues.name,
+      description: formValues.description,
+      category: formValues.category,
+      contact: formValues.contact,
+      latitude: formValues.coords[0],
+      longitude: formValues.coords[1],
+    };
 
-    if (request.ok) {
-      toast("Estabelecimento gravado com sucesso!", {
-        type: "success",
-        autoClose: 2000,
-        onClose: () => navigate("/"),
-      });
-    }
+    console.log(newStore);
+    
+    await api
+      .post("/store/create", newStore)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/everybarber");
+      })
+      .catch((error) => console.log(error));
   }
 
   function MyComponent() {
@@ -108,6 +109,13 @@ export default function New() {
           label="Contato"
           name="contact"
           value={formValues.contact}
+          onChange={handleInputChange}
+        />
+
+        <Input
+          label="Categoria"
+          name="category"
+          value={formValues.category}
           onChange={handleInputChange}
         />
 

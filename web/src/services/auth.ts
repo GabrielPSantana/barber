@@ -9,7 +9,7 @@ interface SignData {
 const signIn = (user: UserLogin) => {
   return new Promise<SignData>((resolve, reject) => {
     api
-      .post("/login", user)
+      .post("/user/login", user)
       .then((res) => {
         const data = res.data;
         const signData: SignData = {

@@ -11,5 +11,6 @@ const router = Router();
 // Routes
 router.post("/create", verifyToken, store.save);
 router.get("/", store.getAll);
+router.get("/:id", store.getStoreById)
 
 export default router;

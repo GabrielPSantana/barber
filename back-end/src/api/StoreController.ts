@@ -55,5 +55,24 @@ class StoreController {
 
     return res.json(allStores);
   }
+
+  async getStoreById(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const storeRepository = getRepository(Store);
+
+    const store = await storeRepository.findOneBy({
+      id: id,
+    });
+
+    if (!store) {
+      res.status(404).json({ message: "Loja não encontrada!" });
+      return;
+    }
+
+    return res.status(200).json({
+      store,
+    });
+  }
 }
 export default StoreController;

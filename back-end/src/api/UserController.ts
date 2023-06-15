@@ -6,7 +6,15 @@ import { User } from "../entity/User";
 import createUserToken from "../helpers/createUserToken";
 
 class UserController {
-  
+  // GET
+  async getAll(req: Request, res: Response) {
+    const storeRepository = getRepository(User);
+
+    const allStores = await storeRepository.find();
+
+    return res.json(allStores);
+  }
+
   // POST
   async register(req: Request, res: Response) {
     let { body } = req;

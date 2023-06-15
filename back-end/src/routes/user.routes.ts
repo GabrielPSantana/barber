@@ -10,5 +10,6 @@ const router = Router();
 router.post("/register", user.register);
 router.post("/login", user.login);
 router.get("/:id", user.getUserById);
+router.get("/", user.getAll);
 
 export default router;

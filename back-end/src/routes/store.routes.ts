@@ -11,7 +11,7 @@ const router = Router();
 // Routes
 router.post("/create", verifyToken, store.save);
 router.get("/", store.getAll);
-router.get("/:id", store.getStoreById)
+router.get("/:id", store.getStoreById);
 router.delete("/:id", verifyToken, store.removePetById);
-
+router.patch("/:id", verifyToken, store.updateStore);
 export default router;

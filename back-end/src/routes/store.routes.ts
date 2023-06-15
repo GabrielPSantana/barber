@@ -12,5 +12,6 @@ const router = Router();
 router.post("/create", verifyToken, store.save);
 router.get("/", store.getAll);
 router.get("/:id", store.getStoreById)
+router.delete("/:id", verifyToken, store.removePetById);
 
 export default router;

@@ -6,6 +6,7 @@ import { getToken } from "../helpers/getToken";
 import getUserByToken from "../helpers/getUserByToken";
 
 class StoreController {
+  // POST
   async save(req: Request, res: Response) {
     const { category, contact, description, latitude, longitude, name } =
       req.body as Store;
@@ -18,7 +19,6 @@ class StoreController {
 
     const user = (await getUserByToken(token)) as User;
 
-    console.log(user);
     const storeRepository = getRepository(Store);
 
     try {
@@ -48,6 +48,7 @@ class StoreController {
     }
   }
 
+  // GET
   async getAll(req: Request, res: Response) {
     const storeRepository = getRepository(Store);
 
@@ -56,6 +57,7 @@ class StoreController {
     return res.json(allStores);
   }
 
+  // GET
   async getStoreById(req: Request, res: Response) {
     const id = req.params.id;
 
@@ -69,6 +71,44 @@ class StoreController {
       res.status(404).json({ message: "Loja não encontrada!" });
       return;
     }
+
+    return res.status(200).json({
+      store,
+    });
+  }
+
+  // DELETE
+  async removePetById(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const storeRepository = getRepository(Store);
+
+    const store = await storeRepository.findOneBy({
+      id: id,
+    });
+
+    console.log(store);
+
+    if (!store) {
+      res.status(404).json({ message: "Loja não encontrada!" });
+      return;
+    }
+    // check if logged in user registered the pet
+    const token = getToken(req);
+
+    if (!token) {
+      res.status(404).json({ message: "Loja não encontrada!" });
+      return;
+    }
+
+    const user = await getUserByToken(token);
+
+    if (store.user.id !== user.id) {
+      res.status(422).json({ message: "Loja não pertence ao usuário" });
+      return;
+    }
+
+    await storeRepository.remove(store);
 
     return res.status(200).json({
       store,

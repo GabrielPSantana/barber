@@ -19,8 +19,6 @@ export const verifyToken = (
 
   const token = getToken(req);
 
-  console.log(token);
-
   if (!token) {
     return res.status(401).json({
       message: "Acesso negado!",
@@ -30,7 +28,6 @@ export const verifyToken = (
 
   try {
     const verified = jwt.verify(token, secretKey) as JwtPayload;
-    console.log(verified);
     req.user = verified;
     next();
   } catch (error) {

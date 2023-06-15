@@ -36,7 +36,7 @@ class UserController {
 
       res.status(201).json({
         message: "Usuário criado com sucesso",
-        id: createUser.id,
+        user: createUser,
         token: token,
       });
     } catch (error) {
@@ -67,11 +67,19 @@ class UserController {
       res.status(422).json({ message: "Senha inválida" });
       return;
     }
+
     try {
       const token = await createUserToken(user);
-      return res
-        .status(201)
-        .json({ message: "Você esta logado!", token: token, id: user.id });
+      return res.status(201).json({
+        message: "Você está logado!",
+        token: token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          stores: user.stores,
+        },
+      });
     } catch (error) {
       return res.status(400).send("Ocorreu um erro ao tentar logar!");
     }

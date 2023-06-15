@@ -1,32 +1,59 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Store } from "../entity/Store";
+import { User } from "../entity/User";
+import { getToken } from "../helpers/getToken";
+import getUserByToken from "../helpers/getUserByToken";
 
-export async function save(request: Request, response: Response) {
-  const { category, contact, description, latitude, longitude, name, user } =
-    request.body as Store;
+class StoreController {
+  async save(req: Request, res: Response) {
+    const { category, contact, description, latitude, longitude, name } =
+      req.body as Store;
 
-  const storeRepository = getRepository(Store);
+    const token = getToken(req);
 
-  try {
-    const savedStore = await storeRepository.save({
-      category,
-      contact,
-      description,
-      latitude,
-      longitude,
-      name,
-      user
-    });
+    if (!token) {
+      return res.status(401).json({ message: "Token não fornecido" });
+    }
 
-    return response.status(201).json(savedStore);
-  } catch (error) {}
+    const user = (await getUserByToken(token)) as User;
+
+    console.log(user);
+    const storeRepository = getRepository(Store);
+
+    try {
+      const savedStore = await storeRepository.save({
+        category,
+        contact,
+        description,
+        latitude,
+        longitude,
+        name,
+        user,
+      });
+
+      res.status(201).json({
+        message: "Loja criada com sucesso",
+        loja: {
+          id: savedStore.id,
+          nome: savedStore.name,
+          contact: savedStore.contact,
+          description: savedStore.description,
+          latitude: savedStore.latitude,
+          longitude: savedStore.longitude,
+        },
+      });
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  }
+
+  async getAll(req: Request, res: Response) {
+    const storeRepository = getRepository(Store);
+
+    const allStores = await storeRepository.find();
+
+    return res.json(allStores);
+  }
 }
-
-export async function getAll(request: Request, response: Response) {
-  const storeRepository = getRepository(Store);
-
-  const allStores = await storeRepository.find();
-
-  return response.json(allStores);
-}
+export default StoreController;

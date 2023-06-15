@@ -1,4 +1,4 @@
-import { User, UserLogin } from "../models/User";
+import { User, UserLogin, UserRegister } from "../models/User";
 import api from "./api";
 
 interface SignData {
@@ -24,4 +24,22 @@ const signIn = (user: UserLogin) => {
   });
 };
 
-export { signIn };
+const signUp = (user: UserRegister) => {
+  return new Promise<SignData>((resolve, reject) => {
+    api
+      .post("/user/register", user)
+      .then((res) => {
+        const data = res.data;
+        const signData: SignData = {
+          token: data?.token || "", // Utilize uma string vazia como valor padrão
+          user: data?.user || null, // Utilize null como valor padrão
+        };
+        resolve(signData);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export { signIn, signUp };

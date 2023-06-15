@@ -9,6 +9,7 @@ import EveryBarber from "./pages/EveryBarber";
 import BarberDatail from "./pages/BarberDetail";
 import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/auth";
+import Register from "./pages/Register";
 
 function App() {
   const theme = {
@@ -25,6 +26,7 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/new" element={<NewPage />} />
             <Route path="/everybarber" element={<EveryBarber />} />

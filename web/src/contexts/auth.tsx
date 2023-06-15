@@ -5,17 +5,18 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { signIn } from "../services/auth";
+import { signIn, signUp } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
-import { User, UserLogin } from "../models/User";
+import { User, UserLogin, UserRegister } from "../models/User";
 
 interface AuthContextData {
   signed: boolean;
   user: User | null;
-  handleSignIn:(user: UserLogin) => void;
+  handleSignIn: (user: UserLogin) => void;
   signOut(): void;
+  handleSignUp: (user: UserRegister) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -36,8 +37,22 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   async function handleSignIn(user: UserLogin) {
-
     const response = await signIn(user);
+    console.log(response);
+
+    localStorage.setItem("token", JSON.stringify(response.token));
+    localStorage.setItem("user", JSON.stringify(response.user));
+
+    const userObject = response.user as User;
+    setUser(userObject);
+
+    api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
+
+    navigate("/");
+  }
+
+  async function handleSignUp(user: UserRegister) {
+    const response = await signUp(user);
     console.log(response)
 
     localStorage.setItem("token", JSON.stringify(response.token));
@@ -63,6 +78,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         signed: Boolean(user),
         user,
         handleSignIn,
+        handleSignUp,
         signOut,
       }}
     >

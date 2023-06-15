@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "./pages/Home";
 import NewPage from "./pages/New";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +10,8 @@ import BarberDatail from "./pages/BarberDetail";
 import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/auth";
 import Register from "./pages/Register";
+import Routes from './routes'
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   const theme = {
@@ -24,14 +26,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/new" element={<NewPage />} />
-            <Route path="/everybarber" element={<EveryBarber />} />
-            <Route path="/barberdetail/:item" element={<BarberDatail />} />
-          </Routes>
+          <Routes />
         </AuthProvider>
       </BrowserRouter>
       <ToastContainer />

@@ -12,7 +12,7 @@ import api from "../services/api";
 import { User, UserLogin, UserRegister } from "../models/User";
 
 interface AuthContextData {
-  signed: boolean;
+  isSigned: boolean;
   user: User | null;
   handleSignIn: (user: UserLogin) => void;
   signOut(): void;
@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        signed: Boolean(user),
+        isSigned: Boolean(user),
         user,
         handleSignIn,
         handleSignUp,

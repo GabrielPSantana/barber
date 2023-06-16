@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
     api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
 
-    navigate("/");
+    navigate("/home");
   }
 
   async function handleSignUp(user: UserRegister) {

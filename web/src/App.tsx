@@ -12,6 +12,7 @@ import { AuthProvider } from "./contexts/auth";
 import Register from "./pages/Register";
 import Routes from './routes'
 import { BrowserRouter } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 function App() {
   const theme = {
@@ -26,6 +27,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthProvider>
+          <Navbar/>
           <Routes />
         </AuthProvider>
       </BrowserRouter>

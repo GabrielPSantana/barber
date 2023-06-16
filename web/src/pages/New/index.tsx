@@ -45,7 +45,7 @@ export default function New() {
     };
 
     console.log(newStore);
-    
+
     await api
       .post("/store/create", newStore)
       .then((res) => {
@@ -145,6 +145,13 @@ export default function New() {
         </MapContainer>
 
         <ButtonContainer>
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Voltar
+          </Button>
           <Button type="submit">Salvar</Button>
         </ButtonContainer>
       </Form>

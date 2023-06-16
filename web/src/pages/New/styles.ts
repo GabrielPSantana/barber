@@ -44,7 +44,11 @@ export const Section = styled.p`
 
 export const ButtonContainer = styled.div`
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   padding-top: 20px;
+  gap: 15px;
 `;
 
 export const Button = styled.button`
@@ -53,6 +57,7 @@ export const Button = styled.button`
   height: 50px;
   border: none;
   border-radius: 5px;
+  width: 100px;
 
   &:hover {
     background-color: ${(props) => props.theme.primary}99;

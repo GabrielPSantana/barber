@@ -30,7 +30,6 @@ export const FormTitle = styled.h2`
 
 export const MapContainer = styled(MapContainerLeaflet)`
   height: 50vh;
-
 `;
 
 export const Section = styled.p`
@@ -44,7 +43,6 @@ export const Section = styled.p`
 
 export const ButtonContainer = styled.div`
   text-align: center;
-  padding-top: 20px;
 `;
 
 export const Button = styled.button`
@@ -53,6 +51,7 @@ export const Button = styled.button`
   height: 50px;
   border: none;
   border-radius: 5px;
+  width: 100px;
 
   &:hover {
     background-color: ${(props) => props.theme.primary}99;

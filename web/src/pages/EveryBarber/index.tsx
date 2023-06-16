@@ -98,7 +98,15 @@ export default function EveryBarber() {
           })}
         </MapContainer>
       </Form>
-      <Link to={"/"}>Voltar</Link>
+      <ButtonContainer>
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Voltar
+          </Button>
+        </ButtonContainer>
     </Container>
   );
 }

@@ -8,7 +8,11 @@ const Navbar = () => {
 
   return (
     <NavContainer>
-      <NavLink to={"/"}  className={({ isActive }) => (isActive ? "brand" : "brand")} end>
+      <NavLink
+        to={"/"}
+        className={({ isActive }) => (isActive ? "brand" : "brand")}
+        end
+      >
         Get <span>Barber</span>
       </NavLink>
       <ul className="links_list">
@@ -31,7 +35,14 @@ const Navbar = () => {
                 Cadastrar Barbearia{" "}
               </NavLink>
             </li>
-
+            <li>
+              <NavLink
+                to={"/dashboard"}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Dashboard
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to={"/everybarber"}
@@ -44,6 +55,14 @@ const Navbar = () => {
         )}
         {!user && (
           <>
+            <li>
+              <NavLink
+                to={"/login"}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Login
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to={"/register"}

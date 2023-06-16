@@ -31,16 +31,16 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const storageToken = localStorage.getItem("token");
 
     if (storageUser && storageToken) {
-      api.defaults.headers["Authorization"] = `Bearer ${storageToken}`;
+      api.defaults.headers.common["Authorization"] = "Bearer " + storageToken;
       setUser(JSON.parse(storageUser));
     }
+
   }, []);
 
   async function handleSignIn(user: UserLogin) {
     const response = await signIn(user);
-    console.log(response);
 
-    localStorage.setItem("token", JSON.stringify(response.token));
+    localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
     const userObject = response.user as User;
@@ -53,7 +53,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   async function handleSignUp(user: UserRegister) {
     const response = await signUp(user);
-    console.log(response)
 
     localStorage.setItem("token", JSON.stringify(response.token));
     localStorage.setItem("user", JSON.stringify(response.user));

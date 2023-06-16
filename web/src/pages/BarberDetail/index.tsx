@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import * as C from "./styles";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import axios from "axios";
 
 interface Dados {
   id: string;
@@ -16,7 +17,6 @@ interface Dados {
 
 function BarberDetail() {
   const { id } = useParams();
-  console.log(id);
   const [data, setData] = useState<Dados>({
     id: "",
     name: "",
@@ -30,45 +30,53 @@ function BarberDetail() {
   const [address, setAddress] = useState<any>();
 
   useEffect(() => {
-    PegarEndereco();
+    getStore();
   }, []);
 
-  async function PegarEndereco() {
+  async function getAddress(addressData: Dados) {
+    if (addressData) {
+      axios
+        .get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${JSON.parse(
+            addressData.latitude
+          )}&lon=${JSON.parse(addressData.longitude)}&format=json`
+        )
+        .then((res) => {
+          setAddress(res.data.address);
+        })
+        .catch((error) => console.log(error.message));
+    }
+  }
+  async function getStore() {
     await api
       .get(`/store/${id}`)
       .then((resp) => {
-        const data = resp.data;
-        console.log(data);
+        const data = resp.data.store;
         setData(data);
-
-        fetch(
-          `https://nominatim.openstreetmap.org/reverse?lat=${data.latitude}&lon=${data.longitude}&format=json`
-        )
-          .then(async (request) => {
-            const responseData = await request.json();
-            console.log(responseData);
-            setAddress(responseData);
-          })
-          .catch((error) => console.log(error.message));
+        getAddress(data);
       })
       .catch((error) => console.log(error.message));
   }
 
   return (
     <C.container>
-      <C.title>{data?.name}</C.title>
-      <C.subTitle>{data?.description}</C.subTitle>
+      {data && address && (
+        <>
+          <C.title>{data?.name}</C.title>
+          <C.subTitle>{data?.description}</C.subTitle>
 
-      <C.sections>Endereço</C.sections>
-      <C.text>
-        {address?.road} Bairro: {address?.suburb}
-      </C.text>
-      <C.text>Cidade {address?.city}</C.text>
-      <C.text>Cep {address?.postcode}</C.text>
-      <C.text>Estado {address?.state}</C.text>
+          <C.sections>Endereço</C.sections>
+          <C.text>
+            {address?.road} Bairro: {address?.suburb}
+          </C.text>
+          <C.text>Cidade {address?.city}</C.text>
+          <C.text>Cep {address?.postcode}</C.text>
+          <C.text>Estado {address?.state}</C.text>
 
-      <C.sections>Contato</C.sections>
-      <C.text>{data?.contact}</C.text>
+          <C.sections>Contato</C.sections>
+          <C.text>{data?.contact}</C.text>
+        </>
+      )}
     </C.container>
   );
 }

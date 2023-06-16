@@ -13,7 +13,7 @@ import { Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import useGetLocation from "../../hooks/useGetLocation";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 export interface IMarker {
@@ -98,6 +98,7 @@ export default function EveryBarber() {
           })}
         </MapContainer>
       </Form>
+      <Link to={"/"}>Voltar</Link>
     </Container>
   );
 }

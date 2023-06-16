@@ -29,10 +29,6 @@ function BarberDetail() {
   });
   const [address, setAddress] = useState<any>();
 
-  useEffect(() => {
-    getStore();
-  }, []);
-
   async function getAddress(addressData: Dados) {
     if (addressData) {
       axios
@@ -47,6 +43,7 @@ function BarberDetail() {
         .catch((error) => console.log(error.message));
     }
   }
+  
   async function getStore() {
     await api
       .get(`/store/${id}`)
@@ -57,6 +54,10 @@ function BarberDetail() {
       })
       .catch((error) => console.log(error.message));
   }
+
+  useEffect(() => {
+    getStore();
+  }, []);
 
   return (
     <C.container>

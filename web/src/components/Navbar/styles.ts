@@ -36,20 +36,5 @@ export const NavContainer = styled.nav`
     color: #fff;
   }
 
-  a,
-  button {
-    text-decoration: none;
-    background-color: transparent;
-    border: none;
-    color: var(--color-black);
-    transition: 0.4s;
-    font-size: 1em;
-    cursor: pointer;
-    font-family: "Montserrat", sans-seri;
-  }
-
-  a:hover,
-  nav button:hover {
-    color: #bbb;
-  }
+  
 `;

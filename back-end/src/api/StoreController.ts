@@ -77,6 +77,25 @@ class StoreController {
     });
   }
 
+  async getStoreByUserId(req: Request, res: Response) {
+    const userId = req.params.userId;
+
+    const storeRepository = getRepository(Store);
+
+    const stores = await storeRepository.findBy({
+      user: { id: userId },
+    });
+
+    if (!stores) {
+      res.status(404).json({ message: "O usuário não tem loja cadastrada!" });
+      return;
+    }
+
+    return res.status(200).json({
+      stores,
+    });
+  }
+
   // DELETE
   async removePetById(req: Request, res: Response) {
     const id = req.params.id;

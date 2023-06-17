@@ -1,132 +1,160 @@
 import { useState } from "react";
 import Input from "../../components/Input";
-import { MapContainer, Container, Form, FormTitle, Section, ButtonContainer, Button } from "./styles";
+import {
+  MapContainer,
+  Container,
+  Form,
+  FormTitle,
+  Section,
+  ButtonContainer,
+  Button,
+} from "./styles";
 import { Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import useGetLocation from "../../hooks/useGetLocation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-export default function New () {
-    const navigate = useNavigate();
+import api from "../../services/api";
+import { error } from "console";
 
-    const [formValues, setFormValues] = useState({
-        name: '',
-        description: '',
-        contact: '',
-        category: '',
-        coords: [0, 0]
-    })
+export default function New() {
+  const navigate = useNavigate();
 
-    const { coords } = useGetLocation();
-    if(!coords) {
-        return <h1>Obtendo localização... </h1>
-    }
+  const [formValues, setFormValues] = useState({
+    name: "",
+    description: "",
+    contact: "",
+    category: "",
+    coords: [0, 0],
+  });
 
-    async function onSubmit() {
-        const request = await fetch("http://localhost:3000/store", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...formValues,
-            latitude: formValues.coords[0],
-            longitude: formValues.coords[1],
-          }),
-        });
+  const { coords } = useGetLocation();
 
-        if(request.ok) {
-            toast('Estabelecimento gravado com sucesso!', {
-                type: 'success',
-                autoClose: 2000,
-                onClose: ()=> navigate('/')
-            })
-        }
+  if (!coords) {
+    return <h1>Obtendo localização...</h1>;
+  }
 
-    }
+  async function onSubmit() {
+    const newStore = {
+      name: formValues.name,
+      description: formValues.description,
+      category: formValues.category,
+      contact: formValues.contact,
+      latitude: formValues.coords[0],
+      longitude: formValues.coords[1],
+    };
 
-    function MyComponent() {
-        const map = useMapEvents({
-          click: (event: LeafletMouseEvent ) => {
-            setFormValues((prev) => ({
-                ...prev,
-                coords: [event.latlng.lat, event.latlng.lng],
-              }));
-          },
-          locationfound: (location) => {
-            console.log('location found:', location)
-          },
-        })
-        return null
-      }
-    
-    return(
-        <Container>
-            <Form
-                onSubmit={(ev) => {
-                ev.preventDefault();
-                onSubmit();
-                }}
-            >
-                <FormTitle>
-                    Cadastro da barbearia
-                </FormTitle>
+    console.log(newStore);
 
-                <Section>
-                    Dados
-                </Section>
+    await api
+      .post("/store/create", newStore)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/everybarber");
+      })
+      .catch((error) => console.log(error));
+  }
 
-                <Input 
-                    label="Nome do local" 
-                    name="name" 
-                    value={formValues.name}
-                    onChange={setFormValues}
-                />
+  function MyComponent() {
+    const map = useMapEvents({
+      click: (event: LeafletMouseEvent) => {
+        setFormValues((prev) => ({
+          ...prev,
+          coords: [event.latlng.lat, event.latlng.lng],
+        }));
+      },
+      locationfound: (location) => {
+        console.log("location found:", location);
+      },
+    });
 
-                <Input 
-                    label="Descrição" 
-                    name="description" 
-                    value={formValues.description}
-                    onChange={setFormValues}
-                />
+    return null;
+  }
 
-                <Input 
-                    label="Contato" 
-                    name="contact" 
-                    value={formValues.contact}
-                    onChange={setFormValues}
-                />
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-                <section>Endereço</section>
-                
-                <MapContainer 
-                
-                center={{
-                    lat:coords[0],
-                    lng:coords[1]
-                } as LatLngExpression }
-                    zoom={13}
-                > 
-                <MyComponent/>
-                <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+  return (
+    <Container>
+      <Form
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          onSubmit();
+        }}
+      >
+        <FormTitle>Cadastro da barbearia</FormTitle>
 
-                <Marker 
-                    position={
-                        [formValues.coords[0], formValues.coords[1]] as LatLngExpression
-                    } 
-                />
-                
-                </MapContainer>
+        <Section>Dados</Section>
 
-                <ButtonContainer>
-                    <Button type="submit">Salvar</Button>
-                </ButtonContainer>
-            </Form>
+        <Input
+          label="Nome do local"
+          name="name"
+          value={formValues.name}
+          onChange={handleInputChange}
+        />
 
+        <Input
+          label="Descrição"
+          name="description"
+          value={formValues.description}
+          onChange={handleInputChange}
+        />
 
-        </Container>
-    )
+        <Input
+          label="Contato"
+          name="contact"
+          value={formValues.contact}
+          onChange={handleInputChange}
+        />
+
+        <Input
+          label="Categoria"
+          name="category"
+          value={formValues.category}
+          onChange={handleInputChange}
+        />
+
+        <section>Endereço</section>
+
+        <MapContainer
+          center={
+            {
+              lat: coords[0],
+              lng: coords[1],
+            } as LatLngExpression
+          }
+          zoom={13}
+        >
+          <MyComponent />
+
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+
+          <Marker
+            position={
+              [formValues.coords[0], formValues.coords[1]] as LatLngExpression
+            }
+          />
+        </MapContainer>
+
+        <ButtonContainer>
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Voltar
+          </Button>
+          <Button type="submit">Salvar</Button>
+        </ButtonContainer>
+      </Form>
+    </Container>
+  );
 }

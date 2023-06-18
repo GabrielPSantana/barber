@@ -100,9 +100,7 @@ class UserController {
       const id = req.params.id;
 
       const user = await getRepository(User);
-      const getUser = await user.findBy({
-        id: id,
-      });
+      const getUser = await user.findOneBy({ id });
 
       if (!getUser) {
         res.status(422).json({ message: "Usuário não encontrado!" });

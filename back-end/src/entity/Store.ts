@@ -23,6 +23,6 @@ export class Store {
   @Column("double precision")
   longitude: number;
 
-  @ManyToOne(() => User, (user) => user.stores, { eager: true })
+  @ManyToOne(() => User, (user) => user.stores)
   user: User;
 }

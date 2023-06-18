@@ -19,18 +19,27 @@ interface Dados {
 const Dashboard = () => {
   const { user } = useAuth();
   const [stores, setStores] = useState<Dados[]>([]);
+  const [release, setRelease] = useState(false)
   const userId = user?.id;
 
   const getStores = () => {
-    api.get(`/store/getbyuser/${userId}`).then((res) => {
-      console.log(res.data.stores)
+    api.get(`/user/${userId}`).then((res) => {
+      console.log(res.data);
       setStores(res.data.stores);
     });
   };
 
+  const deleteDocument = (id: string) => {
+    api.delete(`/store/${id}`).then((res) => {
+      console.log(res.data);
+      getStores(); // Atualiza os stores após a remoção do documento
+    });
+  };
+  
+
   useEffect(() => {
     getStores();
-  }, []);
+  }, [stores]);
 
   return (
     <DashboardContainer>
@@ -39,7 +48,7 @@ const Dashboard = () => {
       {stores && stores.length === 0 ? (
         <div className="nostores">
           <p>Não Foram encontrados stores</p>
-          <Link to="/stores/create" className="btn">
+          <Link to="/new" className="btn">
             Criar Primeiro Post
           </Link>
         </div>
@@ -54,7 +63,10 @@ const Dashboard = () => {
               <div key={id} className="post_row">
                 <p>{post.name}</p>
                 <div>
-                  <Link to={`/barberdetail/${post.id}`} className="btn btn-outline">
+                  <Link
+                    to={`/barberdetail/${post.id}`}
+                    className="btn btn-outline"
+                  >
                     Ver
                   </Link>
 
@@ -66,7 +78,7 @@ const Dashboard = () => {
                   </Link>
 
                   <button
-                    // onClick={() => deleteDocument(post.id)}
+                    onClick={() => deleteDocument(post.id)}
                     className="btn btn-outline btn-danger"
                   >
                     Deletar

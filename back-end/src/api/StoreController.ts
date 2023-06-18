@@ -77,14 +77,17 @@ class StoreController {
     });
   }
 
+  //  POST
   async getStoreByUserId(req: Request, res: Response) {
     const userId = req.params.userId;
 
     const storeRepository = getRepository(Store);
 
-    const stores = await storeRepository.findBy({
-      user: { id: userId },
-    });
+    const stores = await storeRepository.find({where: {
+      user: {id: userId}
+    }});
+
+    console.log(stores)
 
     if (!stores) {
       res.status(404).json({ message: "O usuário não tem loja cadastrada!" });
@@ -103,7 +106,7 @@ class StoreController {
     const storeRepository = getRepository(Store);
 
     const store = await storeRepository.findOneBy({
-      id: id,
+      id
     });
 
     console.log(store);
@@ -116,16 +119,18 @@ class StoreController {
     const token = getToken(req);
 
     if (!token) {
-      res.status(404).json({ message: "Loja não encontrada!" });
+      res.status(404).json({ message: "Efetue o login!" });
       return;
     }
 
     const user = await getUserByToken(token);
 
-    if (store.user.id !== user.id) {
-      res.status(422).json({ message: "Loja não pertence ao usuário" });
-      return;
-    }
+    console.log(user)
+
+    // if (store.id !== user.id) {
+    //   res.status(422).json({ message: "Loja não pertence ao usuário" });
+    //   return;
+    // }
 
     await storeRepository.remove(store);
 

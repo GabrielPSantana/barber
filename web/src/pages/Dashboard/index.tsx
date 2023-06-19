@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/auth";
 import api from "../../services/api";
 import { DashboardContainer } from "./styles";
 
+
 interface Dados {
   id: string;
   name: string;
@@ -19,27 +20,28 @@ interface Dados {
 const Dashboard = () => {
   const { user } = useAuth();
   const [stores, setStores] = useState<Dados[]>([]);
-  const [release, setRelease] = useState(false)
+  const [release, setRelease] = useState(false);
   const userId = user?.id;
 
-  const getStores = () => {
-    api.get(`/user/${userId}`).then((res) => {
+  const getStores = async () => {
+    await api.get(`/user/${userId}`).then((res) => {
       console.log(res.data);
       setStores(res.data.stores);
     });
+    
   };
 
-  const deleteDocument = (id: string) => {
-    api.delete(`/store/${id}`).then((res) => {
+  const deleteDocument = async (id: string) => {
+    await api.delete(`/store/${id}`).then((res) => {
       console.log(res.data);
-      getStores(); // Atualiza os stores após a remoção do documento
+      getStores()
     });
+     // Atualiza os stores após a remoção do documento
   };
-  
 
   useEffect(() => {
     getStores();
-  }, [stores]);
+  }, [release]);
 
   return (
     <DashboardContainer>
@@ -71,7 +73,7 @@ const Dashboard = () => {
                   </Link>
 
                   <Link
-                    to={`/stores/edit/${post.id}`}
+                    to={`/store/edit/${post.id}`}
                     className="btn btn-outline"
                   >
                     Editar

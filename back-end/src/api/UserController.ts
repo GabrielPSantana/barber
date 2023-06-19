@@ -59,8 +59,8 @@ class UserController {
 
     const userRepository = getRepository(User); // Renomeado para 'userRepository'
 
-    const user = await userRepository.findOne({
-      where: { email: email },
+    const user = await userRepository.findOneBy({
+      email,
     });
 
     if (!user) {
@@ -102,6 +102,7 @@ class UserController {
       const user = await getRepository(User);
       const getUser = await user.findOneBy({ id });
 
+      console.log(getUser);
       if (!getUser) {
         res.status(422).json({ message: "Usuário não encontrado!" });
         return;

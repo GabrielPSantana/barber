@@ -1,7 +1,7 @@
+import { User } from "./../../../web/src/models/User";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Store } from "../entity/Store";
-import { User } from "../entity/User";
 import { getToken } from "../helpers/getToken";
 import getUserByToken from "../helpers/getUserByToken";
 
@@ -34,14 +34,7 @@ class StoreController {
 
       res.status(201).json({
         message: "Loja criada com sucesso",
-        loja: {
-          id: savedStore.id,
-          nome: savedStore.name,
-          contact: savedStore.contact,
-          description: savedStore.description,
-          latitude: savedStore.latitude,
-          longitude: savedStore.longitude,
-        },
+        loja: savedStore,
       });
     } catch (error) {
       res.status(400).json({ message: error });
@@ -83,11 +76,11 @@ class StoreController {
 
     const storeRepository = getRepository(Store);
 
-    const stores = await storeRepository.find({where: {
-      user: {id: userId}
-    }});
+    const stores = await storeRepository.findBy({
+      user: { id: userId },
+    });
 
-    console.log(stores)
+    console.log(stores);
 
     if (!stores) {
       res.status(404).json({ message: "O usuário não tem loja cadastrada!" });
@@ -106,7 +99,7 @@ class StoreController {
     const storeRepository = getRepository(Store);
 
     const store = await storeRepository.findOneBy({
-      id
+      id,
     });
 
     console.log(store);
@@ -125,7 +118,7 @@ class StoreController {
 
     const user = await getUserByToken(token);
 
-    console.log(user)
+    console.log(user);
 
     // if (store.id !== user.id) {
     //   res.status(422).json({ message: "Loja não pertence ao usuário" });
@@ -145,42 +138,45 @@ class StoreController {
 
     const { category, contact, description, latitude, longitude, name } =
       req.body as Store;
+    try {
+      const storeRepository = getRepository(Store);
 
-    const storeRepository = getRepository(Store);
+      const store = await storeRepository.findOneBy({
+        id,
+      });
 
-    const store = await storeRepository.findOneBy({
-      id: id,
-    });
+      if (!store) {
+        res.status(404).json({ message: "Loja não encontrada!" });
+        return;
+      }
+      // check if logged in user registered the pet
+      const token = getToken(req);
 
-    if (!store) {
-      res.status(404).json({ message: "Loja não encontrada!" });
-      return;
+      if (!token) {
+        res.status(404).json({ message: "Loja não encontrada!" });
+        return;
+      }
+
+      const user = await getUserByToken(token);
+
+      // if (store.user.id !== user.id) {
+      //   res.status(422).json({ message: "Loja não pertence ao usuário" });
+      //   return;
+      // }
+
+      await storeRepository.update(store, {
+        name,
+        category,
+        contact,
+        description,
+        latitude,
+        longitude,
+      });
+
+      return res.status(200).json({ Message: "Loja Atualizada com sucesso" });
+    } catch (error) {
+      return res.status(400).json({ Message: error });
     }
-    // check if logged in user registered the pet
-    const token = getToken(req);
-
-    if (!token) {
-      res.status(404).json({ message: "Loja não encontrada!" });
-      return;
-    }
-
-    const user = await getUserByToken(token);
-
-    if (store.user.id !== user.id) {
-      res.status(422).json({ message: "Loja não pertence ao usuário" });
-      return;
-    }
-
-    await storeRepository.update(store, {
-      category,
-      contact,
-      description,
-      latitude,
-      longitude,
-      name,
-    });
-
-    return res.status(200).json({ Message: "Loja Atualizada com sucesso" });
   }
 }
 export default StoreController;

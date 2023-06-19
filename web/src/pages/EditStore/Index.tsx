@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../components/Input";
 import {
   MapContainer,
@@ -9,18 +9,19 @@ import {
   ButtonContainer,
   Button,
 } from "./styles";
+
 import { Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import useGetLocation from "../../hooks/useGetLocation";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import { error } from "console";
-import { useAuth } from "../../contexts/auth";
 
-export default function New() {
+export default function EditStore() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { id } = useParams();
+
   const [formValues, setFormValues] = useState({
     name: "",
     description: "",
@@ -29,6 +30,28 @@ export default function New() {
     coords: [0, 0],
   });
 
+  const getStore = async (id: string) => {
+    await api
+      .get(`/store/${id}`)
+      .then((res) => {
+        const store = res.data.store
+        const updateStore = {
+          name: store.name,
+          description: store.description,
+          contact: store.contact,
+          category: store.category,
+          coords: [store.latitude, store.longitude],
+        }
+        setFormValues(updateStore)
+      })
+  };
+
+  useEffect(() => {
+    if (id) {
+      getStore(id);
+    }
+  }, []);
+
   const { coords } = useGetLocation();
 
   if (!coords) {
@@ -36,10 +59,6 @@ export default function New() {
   }
 
   async function onSubmit() {
-    if(!user) {
-      return
-    }
-
     const newStore = {
       name: formValues.name,
       description: formValues.description,
@@ -47,13 +66,12 @@ export default function New() {
       contact: formValues.contact,
       latitude: formValues.coords[0],
       longitude: formValues.coords[1],
-      user,
     };
 
     console.log(newStore);
 
     await api
-      .post("/store/create", newStore)
+      .patch(`/store/${id}`, newStore)
       .then((res) => {
         console.log(res.data);
         navigate("/everybarber");
@@ -93,9 +111,7 @@ export default function New() {
           onSubmit();
         }}
       >
-        <FormTitle>Cadastro da barbearia</FormTitle>
-
-        <Section>Dados</Section>
+        <FormTitle>Editar Barbearia</FormTitle>
 
         <Input
           label="Nome do local"

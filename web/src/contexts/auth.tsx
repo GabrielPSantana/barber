@@ -27,6 +27,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   // const [userToken, setUserToken] = useState<string | null>(null)
 
   useEffect(() => {
+
     const storageUser = localStorage.getItem("user");
     const storageToken = localStorage.getItem("token");
 
@@ -54,7 +55,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   async function handleSignUp(user: UserRegister) {
     const response = await signUp(user);
 
-    localStorage.setItem("token", JSON.stringify(response.token));
+    
+    localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
     const userObject = response.user as User;
@@ -67,6 +69,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   function signOut() {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setUser(null);
     navigate("/");
   }

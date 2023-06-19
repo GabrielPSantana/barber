@@ -12,7 +12,7 @@ const router = Router();
 router.post("/create", verifyToken, store.save);
 router.get("/", store.getAll);
 router.get("/:id", store.getStoreById);
-router.get("/getbyuser/:userId",verifyToken, store.getStoreByUserId);
+router.get("/getbyuser/:userId", verifyToken, store.getStoreByUserId);
 router.delete("/:id", verifyToken, store.removePetById);
 router.patch("/:id", verifyToken, store.updateStore);
 export default router;

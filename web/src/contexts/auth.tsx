@@ -24,7 +24,6 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-  // const [userToken, setUserToken] = useState<string | null>(null)
 
   useEffect(() => {
 

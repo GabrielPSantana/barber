@@ -10,15 +10,13 @@ const getUserByToken = async (token: string) => {
 
   const secretKey: Secret = process.env.SECRET || "";
 
-  const decoded = jwt.verify(token, secretKey);
- 
-  const userId = decoded.indexOf;
+  const decoded = jwt.verify(token, secretKey) as User;
+
+  const userId = decoded.id;
 
   const userRepository = getRepository(User);
 
-  const user = await userRepository.findOneBy({
-    id: userId,
-  });
+  const user = await userRepository.findOneBy({ id: userId });
 
   if (!user) {
     throw new Error("Acesso Negado!");

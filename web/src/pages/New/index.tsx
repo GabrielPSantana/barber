@@ -36,9 +36,6 @@ export default function New() {
   }
 
   async function onSubmit() {
-    if(!user) {
-      return
-    }
 
     const newStore = {
       name: formValues.name,
@@ -47,7 +44,6 @@ export default function New() {
       contact: formValues.contact,
       latitude: formValues.coords[0],
       longitude: formValues.coords[1],
-      user,
     };
 
     console.log(newStore);

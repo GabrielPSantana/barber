@@ -17,7 +17,7 @@ class StoreController {
       return res.status(401).json({ message: "Token não fornecido" });
     }
 
-    const user = (await getUserByToken(token)) as User;
+    const user = (await getUserByToken(token))
 
     const storeRepository = getRepository(Store);
 

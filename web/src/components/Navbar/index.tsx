@@ -1,6 +1,6 @@
 import { useAuth } from "../../contexts/auth";
 import styles from "./Navbar.module.css";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { NavContainer } from "./styles";
 
 const Navbar = () => {
@@ -8,13 +8,12 @@ const Navbar = () => {
 
   return (
     <NavContainer>
-      <NavLink
+      <Link
         to={"/"}
-        className={({ isActive }) => (isActive ? "brand" : "brand")}
-        end
+        className="brand"
       >
         Get <span>Barber</span>
-      </NavLink>
+      </Link>
       <ul className="links_list">
         <li>
           <NavLink
@@ -55,6 +54,14 @@ const Navbar = () => {
         )}
         {!user && (
           <>
+            <li>
+              <NavLink
+                to={"/everybarber"}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Localizar Barbearia
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to={"/login"}

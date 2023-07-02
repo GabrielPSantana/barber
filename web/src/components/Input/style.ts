@@ -10,6 +10,7 @@ export const Container = styled.div`
 export const InputStyled = styled.input`
   border: 1px solid;
   margin-top: .5em;
+  padding: 5px 10px;
   background-color: ${(props) => props.theme.background};
   color: ${(props) => props.theme.text};
   border-radius: 8px;

@@ -24,6 +24,7 @@ export const NavContainer = styled.nav`
     margin-right: 1em;
     flex-direction: row;
     align-items: center;
+   
   }
 
   .links_list li a {
@@ -36,5 +37,34 @@ export const NavContainer = styled.nav`
     color: #fff;
   }
 
-  
+  @media screen and (max-width: 1024px) {
+    font-size: 80%;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 80%;
+    white-space: nowrap;
+
+    .links_list {
+      margin-right: 0px;
+    }
+
+    .links_list li a {
+      padding: 0.4em 0.6em;
+      text-decoration: none;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 50%;
+
+    .links_list li a {
+      padding: 0.4em 0.6em;
+    }
+    
+    .brand {
+      font-size: 1em;
+    }
+  }
 `;

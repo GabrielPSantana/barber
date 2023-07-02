@@ -17,7 +17,7 @@ export const DashboardContainer = styled.div`
     color: #aaa;
     margin-bottom: 1em;
   }
-  
+
   .noposts {
     text-align: center;
   }
@@ -66,7 +66,7 @@ export const DashboardContainer = styled.div`
   }
 
   /* =============MEDIA QUERIES (MEDIUM DEVICES) =============*/
-  /* @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1024px) {
   }
 
   @media screen and (max-width: 600px) {
@@ -92,5 +92,6 @@ export const DashboardContainer = styled.div`
       margin-top: 0;
       margin-bottom: -0.5rem;
       font-size: 1.5rem;
-    } */
+    }
+  }
 `;

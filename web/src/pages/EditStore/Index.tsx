@@ -74,7 +74,7 @@ export default function EditStore() {
       .patch(`/store/${id}`, newStore)
       .then((res) => {
         console.log(res.data);
-        navigate("/everybarber");
+        navigate("/dashboard");
       })
       .catch((error) => console.log(error));
   }

@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 90vw;
   height: 100vh;
   background: url("./home-background.svg") no-repeat 700px bottom;
   background-color: ${(props) => props.theme.background};
   display: flex;
-  @media (max-width: 768px) {
+  align-items: center;
+  margin: 0 auto;
+  @media (max-width: 1000px) {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
@@ -17,6 +21,10 @@ export const Title = styled.h1`
   padding-bottom: 50px;
   text-align: center;
   max-width: 500px;
+
+  @media screen and (max-width: 600px) {
+    max-width: 300px;
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -24,6 +32,10 @@ export const SubTitle = styled.p`
   padding-bottom: 50px;
   text-align: center;
   max-width: 500px;
+
+  @media screen and (max-width: 600px) {
+    width: 80%;
+  }
 `;
 
 export const ButtonBox = styled.div`
@@ -39,6 +51,10 @@ export const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const Button = styled.button`
@@ -65,8 +81,14 @@ export const LeftContainer = styled.div`
 
 export const ContainerLink = styled.div`
   display: flex;
-  justify-content:space-around;
-  width: 500px;
+  justify-content: space-around;
+  width: 80%;
+  gap: 20px;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const RightContainer = styled.div`
@@ -74,11 +96,15 @@ export const RightContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 600px) {
+    max-height: 40%;
+  }
 `;
 
 export const Image = styled.img.attrs(() => ({
   src: "home-image.svg",
 }))`
-  width: 50%;
+  width: 70%;
+  
 `;
-

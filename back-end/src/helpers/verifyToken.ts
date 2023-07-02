@@ -32,7 +32,7 @@ export const verifyToken = (
     next();
   } catch (error) {
     return res.status(422).json({
-      message: "Token Inválido poha!",
+      message: "Token Inválido!",
     });
   }
 };

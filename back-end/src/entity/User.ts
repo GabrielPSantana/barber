@@ -15,6 +15,6 @@ export class User {
   @Column("varchar")
   password: string;
 
-  @OneToMany(() => Store, (store) => store.user, {eager: true})
+  @OneToMany(() => Store, (store) => store.user, { eager: true })
   stores: Store[];
 }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import Input from "../../components/Input";
+import Leaflet from "leaflet";
+import barberImage from './barber.png'
+
 import {
   MapContainer,
   Container,
@@ -62,6 +64,11 @@ export default function EveryBarber() {
     name: "Eu",
   };
 
+  var greenIcon = Leaflet.icon({
+    iconUrl: barberImage,
+    iconSize: [45, 45],
+  });
+
   return (
     <Container>
       <Form>
@@ -86,6 +93,7 @@ export default function EveryBarber() {
           {markers.map((item) => {
             return (
               <Marker
+                icon = {greenIcon}
                 key={item.id}
                 position={[item.latitude, item.longitude] as LatLngExpression}
                 eventHandlers={{

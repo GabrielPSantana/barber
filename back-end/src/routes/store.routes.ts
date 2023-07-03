@@ -3,7 +3,7 @@ import { Router } from "express";
 // Helpers
 import { verifyToken } from "../helpers/verifyToken";
 // Controllers
-import StoreController from "../api/StoreController";
+import StoreController from "../controllers/StoreController";
 
 // Instance
 const store = new StoreController();

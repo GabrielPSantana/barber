@@ -6,6 +6,7 @@ import NewPage from "../pages/New";
 import BarberDatail from "../pages/BarberDetail";
 import Dashboard from "../pages/Dashboard";
 import EditStore from "../pages/EditStore/Index";
+import UserEdit from '../pages/EditUser'
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       <Route path="/everybarber" element={<EveryBarber />} />
       <Route path="/barberdetail/:id" element={<BarberDatail />} />
       <Route path="/store/edit/:id" element={<EditStore />} />
+      <Route path="/user/:id" element={<UserEdit/> } />
     </Routes>
   );
 };

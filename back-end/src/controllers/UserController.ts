@@ -69,8 +69,10 @@ class UserController {
       where: { email: body.email },
     });
 
-    if (emailExists && emailExists.id !=  getUser.id) {
-      return res.status(422).json({ message: "Este e-mail já está cadastrado!" });
+    if (emailExists && emailExists.id != getUser.id) {
+      return res
+        .status(422)
+        .json({ message: "Este e-mail já está cadastrado!" });
     }
 
     // create a password
@@ -88,7 +90,6 @@ class UserController {
         message: "Usuário atualizado",
         user: userUpdate,
       });
-
     } catch (error) {
       res.status(400).json({ message: error });
     }
@@ -131,7 +132,9 @@ class UserController {
         },
       });
     } catch (error) {
-      return res.status(400).json({message:"Ocorreu um erro ao tentar logar!"});
+      return res
+        .status(400)
+        .json({ message: "Ocorreu um erro ao tentar logar!" });
     }
   }
 
@@ -167,27 +170,10 @@ class UserController {
       return res.status(422).json({ message: "Usuário inválido!" });
     }
 
-    try {
-      await userRepository.remove(getUser);
-
-      res.status(201).json({
-        message: "Usuário deletado",
-      });
-
-    } catch (error) {
-      res.status(400).json({ message: error });
-    }
-  }
-
-  //DELETE
-  async delete(req: Request, res: Response) {
-    const id = req.params.id;
-    const userRepository = getRepository(User); // Renomeado para 'userRepository'
-
-    const getUser = await userRepository.findOneBy({ id });
-
-    if (!getUser) {
-      return res.status(422).json({ message: "Usuário inválido!" });
+    if (getUser.stores.length > 0) {
+      return res
+        .status(422)
+        .json({ message: "Antes você precisa deletar suas barbearias!" });
     }
 
     try {
@@ -196,13 +182,10 @@ class UserController {
       res.status(201).json({
         message: "Usuário deletado",
       });
-
     } catch (error) {
       res.status(400).json({ message: error });
     }
   }
 }
-
-
 
 export default UserController;

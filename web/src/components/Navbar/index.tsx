@@ -55,7 +55,7 @@ const Navbar = () => {
                 to={`/user/${user.id}`}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Meu Perfil
+                Perfil
               </NavLink>
             </li>
           </>

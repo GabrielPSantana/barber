@@ -52,12 +52,12 @@ const Dashboard = () => {
   return (
     <DashboardContainer>
       <h2>Dashboard</h2>
-      <p>Gerencie seus stores</p>
+      <p>Gerencie seus Barbearias</p>
       {stores && stores.length === 0 ? (
         <div className="nostores">
-          <p>Não Foram encontrados stores</p>
+          <p>Não Foram encontrados Barbearias</p>
           <Link to="/new" className="btn">
-            Criar Primeiro Post
+            Criar sua Primeira Barbearia
           </Link>
         </div>
       ) : (

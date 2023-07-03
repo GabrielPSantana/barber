@@ -25,7 +25,7 @@ function App() {
         </AuthProvider>
       </BrowserRouter>
       <ToastContainer
-        limit={2}
+        limit={3}
         theme="light"
         autoClose={3000}
         style={{ marginTop: "20px" }}

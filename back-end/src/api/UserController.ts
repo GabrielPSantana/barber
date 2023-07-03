@@ -90,7 +90,7 @@ class UserController {
         },
       });
     } catch (error) {
-      return res.status(400).send("Ocorreu um erro ao tentar logar!");
+      return res.status(400).json({message:"Ocorreu um erro ao tentar logar!"});
     }
   }
 
@@ -110,7 +110,9 @@ class UserController {
 
       return res.status(201).json(getUser);
     } catch (error) {
-      return res.status(400).send("Ocorreu um erro ao tentar obter usuário!");
+      return res
+        .status(400)
+        .json({ message: "Ocorreu um erro ao tentar obter usuário!" });
     }
   }
 }

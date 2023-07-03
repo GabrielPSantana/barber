@@ -17,7 +17,7 @@ class StoreController {
       return res.status(401).json({ message: "Token não fornecido" });
     }
 
-    const user = (await getUserByToken(token))
+    const user = await getUserByToken(token);
 
     const storeRepository = getRepository(Store);
 
@@ -125,11 +125,15 @@ class StoreController {
     //   return;
     // }
 
-    await storeRepository.remove(store);
+    try {
+      await storeRepository.remove(store);
 
-    return res.status(200).json({
-      store,
-    });
+      return res.status(200).json({
+        store,
+      });
+    } catch (error) {
+      return res.status(401).json({ message: "Erro em deletar" });
+    }
   }
 
   // PATCH
@@ -173,9 +177,9 @@ class StoreController {
         longitude,
       });
 
-      return res.status(200).json({ Message: "Loja Atualizada com sucesso" });
+      return res.status(200).json({ message: "Loja Atualizada com sucesso" });
     } catch (error) {
-      return res.status(400).json({ Message: error });
+      return res.status(400).json({ message: error });
     }
   }
 }

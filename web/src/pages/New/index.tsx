@@ -92,8 +92,6 @@ export default function New() {
       >
         <FormTitle>Cadastro da barbearia</FormTitle>
 
-        <Section>Dados</Section>
-
         <Input
           label="Nome do local"
           name="name"

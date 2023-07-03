@@ -60,6 +60,7 @@ const Register = () => {
             name="password"
             value={user.password}
             onChange={handleChange}
+            type="password"
           />
 
           <Input
@@ -67,6 +68,7 @@ const Register = () => {
             name="confirmPassword"
             value={user.confirmPassword}
             onChange={handleChange}
+            type="password"
           />
           <input type="submit" value="Entrar" />
         </form>

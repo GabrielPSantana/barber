@@ -1,4 +1,4 @@
-import { User } from "./../../../web/src/models/User";
+import { User } from "../../../web/src/models/User";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Store } from "../entity/Store";

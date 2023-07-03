@@ -34,6 +34,7 @@ const Login = () => {
             label="Password"
             name="password"
             value={user.password}
+            type="password"
             onChange={handleChange}
           />
 

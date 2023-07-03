@@ -1,4 +1,4 @@
-import { Login } from "./../models/User";
+import { Login } from "../models/User";
 import { Request, Response, json } from "express";
 import { getRepository } from "typeorm";
 import bcrypt from "bcrypt";
@@ -53,6 +53,47 @@ class UserController {
     }
   }
 
+  // PUT
+  async edit(req: Request, res: Response) {
+    let { body } = req;
+    const id = req.params.id;
+    const userRepository = getRepository(User); // Renomeado para 'userRepository'
+
+    const getUser = await userRepository.findOneBy({ id });
+
+    if (!getUser) {
+      return res.status(422).json({ message: "Usuário inválido!" });
+    }
+
+    const emailExists = await userRepository.findOne({
+      where: { email: body.email },
+    });
+
+    if (emailExists && emailExists.id !=  getUser.id) {
+      return res.status(422).json({ message: "Este e-mail já está cadastrado!" });
+    }
+
+    // create a password
+    const salt = await bcrypt.genSalt(8);
+    const passwordHash = await bcrypt.hash(body.password, salt);
+
+    getUser.password = passwordHash;
+    getUser.email = body.email;
+    getUser.name = body.name;
+
+    try {
+      const userUpdate = await userRepository.save(getUser);
+
+      res.status(201).json({
+        message: "Usuário atualizado",
+        user: userUpdate,
+      });
+
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  }
+
   // POST
   async login(req: Request, res: Response) {
     const { email, password } = req.body;
@@ -102,7 +143,6 @@ class UserController {
       const user = await getRepository(User);
       const getUser = await user.findOneBy({ id });
 
-      console.log(getUser);
       if (!getUser) {
         res.status(422).json({ message: "Usuário não encontrado!" });
         return;
@@ -115,6 +155,31 @@ class UserController {
         .json({ message: "Ocorreu um erro ao tentar obter usuário!" });
     }
   }
+
+  //DELETE
+  async delete(req: Request, res: Response) {
+    const id = req.params.id;
+    const userRepository = getRepository(User); // Renomeado para 'userRepository'
+
+    const getUser = await userRepository.findOneBy({ id });
+
+    if (!getUser) {
+      return res.status(422).json({ message: "Usuário inválido!" });
+    }
+
+    try {
+      await userRepository.remove(getUser);
+
+      res.status(201).json({
+        message: "Usuário deletado",
+      });
+
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  }
 }
+
+
 
 export default UserController;

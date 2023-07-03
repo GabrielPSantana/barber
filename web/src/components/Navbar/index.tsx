@@ -50,6 +50,14 @@ const Navbar = () => {
                 Localizar Barbearia
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to={`/user/${user.id}`}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Meu Perfil
+              </NavLink>
+            </li>
           </>
         )}
         {!user && (
@@ -78,6 +86,7 @@ const Navbar = () => {
                 Cadastrar
               </NavLink>
             </li>
+
           </>
         )}
 

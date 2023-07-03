@@ -3,7 +3,7 @@ import { createConnection } from "typeorm";
 import cors from "cors";
 import StoreRotes from "./routes/store.routes";
 import UserRoutes from "./routes/user.routes";
-const PORT = 3000;
+const PORT = 5000;
 
 async function startup() {
   await createConnection();

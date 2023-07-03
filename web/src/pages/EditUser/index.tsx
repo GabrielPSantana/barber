@@ -11,8 +11,8 @@ import api from "../../services/api";
 import { useToastMessage } from "../../hooks/useToast";
 
 const Update = () => {
-  const { handleSignUp, signOut } = useAuth();
-  const [message, setMessage] = useState("");
+  const { signOut } = useAuth();
+
   const { setToastMessage } = useToastMessage();
   const [user, setUser] = useState({
     name: "",
@@ -58,7 +58,7 @@ const Update = () => {
         navigate("/");
       })
       .catch((erro) => {
-        console.log(erro)
+        console.log(erro);
         setToastMessage(erro.response.data.message, "error");
       });
   };
@@ -125,7 +125,6 @@ const Update = () => {
             value={user.password}
             onChange={handleChange}
             type="password"
-            
           />
 
           <Input

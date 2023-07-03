@@ -178,6 +178,29 @@ class UserController {
       res.status(400).json({ message: error });
     }
   }
+
+  //DELETE
+  async delete(req: Request, res: Response) {
+    const id = req.params.id;
+    const userRepository = getRepository(User); // Renomeado para 'userRepository'
+
+    const getUser = await userRepository.findOneBy({ id });
+
+    if (!getUser) {
+      return res.status(422).json({ message: "Usuário inválido!" });
+    }
+
+    try {
+      await userRepository.remove(getUser);
+
+      res.status(201).json({
+        message: "Usuário deletado",
+      });
+
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  }
 }
 
 

@@ -1,16 +1,9 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-
-import Home from "./pages/Home";
-import NewPage from "./pages/New";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import EveryBarber from "./pages/EveryBarber";
-import BarberDatail from "./pages/BarberDetail";
-import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/auth";
-import Register from "./pages/Register";
-import Routes from './routes'
+import Routes from "./routes";
 import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
@@ -27,11 +20,19 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthProvider>
-          <Navbar/>
+          <Navbar />
           <Routes />
         </AuthProvider>
       </BrowserRouter>
-      <ToastContainer />
+      <ToastContainer
+        limit={2}
+        theme="light"
+        autoClose={3000}
+        style={{ marginTop: "20px" }}
+        position="top-right"
+        newestOnTop
+        closeOnClick
+      />
     </ThemeProvider>
   );
 }

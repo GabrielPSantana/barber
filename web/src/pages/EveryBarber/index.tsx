@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Leaflet from "leaflet";
-import barberImage from './barber.png'
+import barberImage from "./barber.png";
 
 import {
   MapContainer,
@@ -17,6 +17,7 @@ import useGetLocation from "../../hooks/useGetLocation";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { useToastMessage } from "../../hooks/useToast";
 
 export interface IMarker {
   category: string;
@@ -30,6 +31,7 @@ export interface IMarker {
 
 export default function EveryBarber() {
   const navigate = useNavigate();
+  const { setToastMessage } = useToastMessage();
 
   const [markers, setMarkers] = useState<IMarker[]>([]);
 
@@ -41,7 +43,7 @@ export default function EveryBarber() {
         console.log(data);
         setMarkers(data);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => setToastMessage(error.message, "error"));
   };
 
   useEffect(() => {
@@ -93,7 +95,7 @@ export default function EveryBarber() {
           {markers.map((item) => {
             return (
               <Marker
-                icon = {greenIcon}
+                icon={greenIcon}
                 key={item.id}
                 position={[item.latitude, item.longitude] as LatLngExpression}
                 eventHandlers={{
@@ -107,14 +109,14 @@ export default function EveryBarber() {
         </MapContainer>
       </Form>
       <ButtonContainer>
-          <Button
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Voltar
-          </Button>
-        </ButtonContainer>
+        <Button
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Voltar
+        </Button>
+      </ButtonContainer>
     </Container>
   );
 }

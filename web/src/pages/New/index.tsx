@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { error } from "console";
 import { useAuth } from "../../contexts/auth";
+import { useToastMessage } from "../../hooks/useToast";
 
 export default function New() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function New() {
     category: "",
     coords: [0, 0],
   });
+  const { setToastMessage } = useToastMessage();
 
   const { coords } = useGetLocation();
 
@@ -36,7 +38,6 @@ export default function New() {
   }
 
   async function onSubmit() {
-
     const newStore = {
       name: formValues.name,
       description: formValues.description,
@@ -51,10 +52,10 @@ export default function New() {
     await api
       .post("/store/create", newStore)
       .then((res) => {
-        console.log(res.data);
+        setToastMessage(res.data.message, "success");
         navigate("/everybarber");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => setToastMessage(error.data.message, "error"));
   }
 
   function MyComponent() {

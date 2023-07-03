@@ -5,10 +5,11 @@ import { useAuth } from "../../contexts/auth";
 import { FormStyled, Container } from "./styles";
 
 import Input from "../../components/Input";
+import { useToastMessage } from "../../hooks/useToast";
 
 const Register = () => {
   const { handleSignUp } = useAuth();
-  const [message, setMessage] = useState("");
+  const {setToastMessage} = useToastMessage()
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -19,7 +20,7 @@ const Register = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (user.password !== user.confirmPassword) {
-      setMessage("As senhas não são iguais");
+      setToastMessage("As senhas não são iguis", "error")
       return;
     }
 
@@ -67,7 +68,6 @@ const Register = () => {
             value={user.confirmPassword}
             onChange={handleChange}
           />
-          <span>{message}</span>
           <input type="submit" value="Entrar" />
         </form>
         <p>

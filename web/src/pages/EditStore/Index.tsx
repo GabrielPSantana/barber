@@ -17,10 +17,12 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import { error } from "console";
+import { useToastMessage } from "../../hooks/useToast";
 
 export default function EditStore() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { setToastMessage } = useToastMessage();
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -34,16 +36,21 @@ export default function EditStore() {
     await api
       .get(`/store/${id}`)
       .then((res) => {
-        const store = res.data.store
+        const store = res.data.store;
+
         const updateStore = {
           name: store.name,
           description: store.description,
           contact: store.contact,
           category: store.category,
           coords: [store.latitude, store.longitude],
-        }
-        setFormValues(updateStore)
+        };
+
+        setFormValues(updateStore);
       })
+      .catch((error) => {
+        setToastMessage(error.data.message, "error");
+      });
   };
 
   useEffect(() => {
@@ -73,10 +80,13 @@ export default function EditStore() {
     await api
       .patch(`/store/${id}`, newStore)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.Message);
+        setToastMessage(res.data.message, "success");
         navigate("/dashboard");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setToastMessage(error.data.message, "error");
+      });
   }
 
   function MyComponent() {

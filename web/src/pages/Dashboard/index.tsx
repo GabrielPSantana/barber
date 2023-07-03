@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/auth";
 import api from "../../services/api";
 import { DashboardContainer } from "./styles";
-
+import { useToastMessage } from "../../hooks/useToast";
 
 interface Dados {
   id: string;
@@ -21,6 +21,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [stores, setStores] = useState<Dados[]>([]);
   const [release, setRelease] = useState(false);
+  const { setToastMessage } = useToastMessage();
   const userId = user?.id;
 
   const getStores = async () => {
@@ -28,15 +29,20 @@ const Dashboard = () => {
       console.log(res.data);
       setStores(res.data.stores);
     });
-    
   };
 
-  const deleteDocument = async (id: string) => {
-    await api.delete(`/store/${id}`).then((res) => {
-      console.log(res.data);
-      getStores()
-    });
-     // Atualiza os stores após a remoção do documento
+  const deleteDocument = async (id: string, name: string) => {
+    await api
+      .delete(`/store/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setToastMessage(`${name} foi deletado!`, "warning")
+        getStores();
+      })
+      .catch((error) => {
+        setToastMessage(error.message , "error")
+      });
+    // Atualiza os stores após a remoção do documento
   };
 
   useEffect(() => {
@@ -80,7 +86,7 @@ const Dashboard = () => {
                   </Link>
 
                   <button
-                    onClick={() => deleteDocument(post.id)}
+                    onClick={() => deleteDocument(post.id, post.name)}
                     className="btn btn-outline btn-danger"
                   >
                     Deletar

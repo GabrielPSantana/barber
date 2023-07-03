@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 import { User, UserLogin, UserRegister } from "../models/User";
+import { useToastMessage } from "../hooks/useToast";
 
 interface AuthContextData {
   isSigned: boolean;
@@ -24,9 +25,9 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-
+  const { setToastMessage } = useToastMessage();
+  
   useEffect(() => {
-
     const storageUser = localStorage.getItem("user");
     const storageToken = localStorage.getItem("token");
 
@@ -34,12 +35,11 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       api.defaults.headers.common["Authorization"] = "Bearer " + storageToken;
       setUser(JSON.parse(storageUser));
     }
-
   }, []);
 
   async function handleSignIn(user: UserLogin) {
     const response = await signIn(user);
-
+    console.log(response);
     localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
@@ -47,14 +47,12 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setUser(userObject);
 
     api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
-
     navigate("/");
   }
 
   async function handleSignUp(user: UserRegister) {
     const response = await signUp(user);
 
-    
     localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
@@ -70,6 +68,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
+    setToastMessage("Você esta deslogado", "info");
     navigate("/");
   }
 

@@ -3,17 +3,14 @@ import { Link } from "react-router-dom";
 
 import { useAuth } from "../../contexts/auth";
 import { FormStyled, Container } from "./styles";
-
 import Input from "../../components/Input";
 
-
 const Login = () => {
-  const {handleSignIn} = useAuth()
+  const { handleSignIn } = useAuth();
   const [user, setUser] = useState({ email: "", password: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     handleSignIn(user);
   };
 
